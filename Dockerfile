@@ -57,8 +57,7 @@ USER bisq
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/opt/bisq/bin/Bisq"]
 
-# TODO --read-only
-LABEL podman-run-x11="podman run --name bisq --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v bisq_data:$BISQ_DATA_PATH --cap-drop ALL --security-opt no-new-privileges \${IMAGE}"
+LABEL podman-run-x11="podman run --name bisq --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v bisq_data:$BISQ_DATA_PATH --read-only --cap-drop ALL --security-opt no-new-privileges \${IMAGE}"
 
 # https://github.com/opencontainers/image-spec/blob/v1.0.1/annotations.md
 ARG REVISION=
