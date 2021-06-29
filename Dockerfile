@@ -26,6 +26,11 @@ RUN apt-get update \
     && useradd --create-home bisq \
     && find / -xdev -type f -perm /u+s -exec chmod -c u-s {} \; \
     && find / -xdev -type f -perm /g+s -exec chmod -c g-s {} \;
+# TODO merge
+# > [NetworkNode-9999] ERROR b.n.p2p.network.TorNetworkNode: Tor node creation failed: \
+# > java.io.IOException: Cannot run program "ps": error=2, No such file or directory
+# > [JavaFX Application Thread] ERROR bisq.core.app.P2PNetworkSetup: onSetupFailed
+RUN apt-get install --yes --no-install-recommends procps
 # TODO clean apt
 
 USER bisq
