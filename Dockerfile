@@ -48,10 +48,10 @@ RUN apt-get update \
     && useradd --create-home bisq \
     && mkdir -p $BISQ_DATA_PATH \
     && chown -c bisq $BISQ_DATA_PATH \
+    && rm -rf /var/lib/apt/lists/* \
     && find / -xdev -type f -perm /u+s -exec chmod -c u-s {} \; \
     && find / -xdev -type f -perm /g+s -exec chmod -c g-s {} \;
 VOLUME $BISQ_DATA_PATH
-# TODO clean apt
 
 USER bisq
 ENTRYPOINT ["/usr/bin/tini", "--"]
