@@ -31,14 +31,18 @@ RUN apt-get update \
 # > java.io.IOException: Cannot run program "ps": error=2, No such file or directory
 # > [JavaFX Application Thread] ERROR bisq.core.app.P2PNetworkSetup: onSetupFailed
 RUN apt-get install --yes --no-install-recommends procps
+ARG BISQ_DATA_PATH=/home/bisq/.local/share/Bisq
+RUN mkdir -p $BISQ_DATA_PATH \
+    && chown -c bisq $BISQ_DATA_PATH
+VOLUME $BISQ_DATA_PATH
 # TODO clean apt
 
 USER bisq
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/opt/bisq/bin/Bisq"]
 
-# TODO
-#LABEL podman-run-x11="podman run --name bisq --rm --init -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --read-only --cap-drop ALL --security-opt no-new-privileges \${IMAGE}"
+# TODO --read-only
+LABEL podman-run-x11="podman run --name bisq --rm -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v bisq_data:$BISQ_DATA_PATH --cap-drop ALL --security-opt no-new-privileges \${IMAGE}"
 
 # https://github.com/opencontainers/image-spec/blob/v1.0.1/annotations.md
 ARG REVISION=
