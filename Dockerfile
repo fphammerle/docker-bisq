@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM docker.io/debian:10.10-slim
+FROM docker.io/debian:11.0-slim
 
 ARG BISQ_VERSION=1.7.2
 ARG BISQ_DATA_PATH=/home/bisq/.local/share/Bisq
