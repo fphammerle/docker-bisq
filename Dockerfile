@@ -16,6 +16,8 @@
 
 FROM docker.io/debian:11.2-slim
 
+ARG BISQ_KEYRING_PATH=/usr/local/share/keyrings/bisq.gpg
+COPY CB36D7D2EBB2E35D9B75500BCD5DC1C529CDFD3B.gpg $BISQ_KEYRING_PATH
 ARG BISQ_VERSION=1.8.4
 ARG BISQ_DATA_PATH=/home/bisq/.local/share/Bisq
 # overwriting xdg-desktop-menu to workaround "xdg-desktop-menu: No writable system menu directory found.".
@@ -40,11 +42,14 @@ RUN apt-get update \
         procps \
         tini \
         xdg-utils \
-    && curl --output bisq.deb --location https://bisq.network/downloads/v${BISQ_VERSION}/Bisq-64bit-${BISQ_VERSION}.deb \
+    && BISQ_INSTALLER_URL="https://bisq.network/downloads/v${BISQ_VERSION}/Bisq-64bit-${BISQ_VERSION}.deb" \
+    && curl --output bisq.deb --location "$BISQ_INSTALLER_URL" \
+    && curl --output bisq.deb.asc --location "${BISQ_INSTALLER_URL}.asc" \
+    && gpgv --keyring "$BISQ_KEYRING_PATH" --weak-digest SHA1 --verbose bisq.deb.asc bisq.deb \
     && apt-get purge --yes --autoremove curl ca-certificates \
     && ln -sf /bin/true /usr/bin/xdg-desktop-menu \
     && apt-get install --yes ./bisq.deb \
-    && rm bisq.deb \
+    && rm bisq.deb bisq.deb.asc \
     && useradd --create-home bisq \
     && mkdir -p $BISQ_DATA_PATH \
     && chown -c bisq $BISQ_DATA_PATH \
