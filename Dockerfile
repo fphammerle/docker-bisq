@@ -16,7 +16,7 @@
 
 FROM docker.io/debian:11.2-slim
 
-ARG BISQ_VERSION=1.8.2
+ARG BISQ_VERSION=1.8.4
 ARG BISQ_DATA_PATH=/home/bisq/.local/share/Bisq
 # overwriting xdg-desktop-menu to workaround "xdg-desktop-menu: No writable system menu directory found.".
 # installing libgl1 to fix:
