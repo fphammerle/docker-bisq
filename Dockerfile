@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM docker.io/debian:11.2-slim
+FROM docker.io/debian:11.3-slim
 
 ARG BISQ_KEYRING_PATH=/usr/local/share/keyrings/bisq.gpg
 COPY CB36D7D2EBB2E35D9B75500BCD5DC1C529CDFD3B.gpg $BISQ_KEYRING_PATH
